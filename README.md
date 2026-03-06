@@ -10,7 +10,7 @@ Review Pilot goes beyond linters by analyzing pull requests through six speciali
 PR Opened → Diff Parser → Context Resolver → Diff Router
                                                   ↓
                                     ┌─────────────────────────┐
-                                    │   Specialist Agents      │
+                                    │   Specialist Agents     │
                                     │                         │
                                     │  ● Security             │
                                     │  ● Architecture Boundary│
@@ -60,25 +60,25 @@ jobs:
 
 ### Inputs
 
-| Input | Required | Default | Description |
-|-------|----------|---------|-------------|
-| `github-token` | No | `${{ github.token }}` | GitHub token for API access |
-| `anthropic-api-key` | **Yes** | — | Anthropic API key for convention mining |
-| `model` | No | `claude-sonnet-4-5-20250929` | Model for convention mining |
-| `config-path` | No | `.review-pilot.yml` | Path to config file |
-| `policy-path` | No | `reviewer_policy.json` | Path to policy snapshot |
-| `mode` | No | `warn` | Enforcement mode: `warn` or `enforce` |
-| `max-inline-comments` | No | `3` | Maximum inline comments per review |
-| `learned-rules-path` | No | `.review-pilot-learned.json` | Path to learned rules store |
+| Input                 | Required | Default                      | Description                             |
+| --------------------- | -------- | ---------------------------- | --------------------------------------- |
+| `github-token`        | No       | `${{ github.token }}`        | GitHub token for API access             |
+| `anthropic-api-key`   | **Yes**  | —                            | Anthropic API key for convention mining |
+| `model`               | No       | `claude-sonnet-4-5-20250929` | Model for convention mining             |
+| `config-path`         | No       | `.review-pilot.yml`          | Path to config file                     |
+| `policy-path`         | No       | `reviewer_policy.json`       | Path to policy snapshot                 |
+| `mode`                | No       | `warn`                       | Enforcement mode: `warn` or `enforce`   |
+| `max-inline-comments` | No       | `3`                          | Maximum inline comments per review      |
+| `learned-rules-path`  | No       | `.review-pilot-learned.json` | Path to learned rules store             |
 
 ### Outputs
 
-| Output | Description |
-|--------|-------------|
-| `findings-count` | Total findings from review |
-| `critical-count` | Critical findings count |
-| `warning-count` | Warning findings count |
-| `review-event` | Review action posted (`APPROVE`, `COMMENT`, `REQUEST_CHANGES`) |
+| Output           | Description                                                    |
+| ---------------- | -------------------------------------------------------------- |
+| `findings-count` | Total findings from review                                     |
+| `critical-count` | Critical findings count                                        |
+| `warning-count`  | Warning findings count                                         |
+| `review-event`   | Review action posted (`APPROVE`, `COMMENT`, `REQUEST_CHANGES`) |
 
 ## Configuration
 
@@ -117,7 +117,7 @@ allowlist:
 
 # Enforcement settings
 enforcement:
-  mode: warn          # warn | enforce
+  mode: warn # warn | enforce
   block_on: [critical]
   new_code_only: true
 
@@ -135,14 +135,14 @@ specialist_routing:
 
 ## Specialist Agents
 
-| Agent | What It Detects |
-|-------|----------------|
-| **Security** | Hardcoded secrets, AWS keys, private key material, generated file edits |
-| **Architecture Boundary** | Cross-layer imports, handler-to-DAL coupling violations |
-| **API Contract** | Missing validation, inconsistent response shapes |
-| **Data Access** | Raw SQL in non-DAL layers, missing transaction handling |
-| **Reliability** | Unhandled promises, missing error boundaries, resource leaks |
-| **Logging / Error** | Swallowed errors, missing contextual logging, bare `catch` blocks |
+| Agent                     | What It Detects                                                         |
+| ------------------------- | ----------------------------------------------------------------------- |
+| **Security**              | Hardcoded secrets, AWS keys, private key material, generated file edits |
+| **Architecture Boundary** | Cross-layer imports, handler-to-DAL coupling violations                 |
+| **API Contract**          | Missing validation, inconsistent response shapes                        |
+| **Data Access**           | Raw SQL in non-DAL layers, missing transaction handling                 |
+| **Reliability**           | Unhandled promises, missing error boundaries, resource leaks            |
+| **Logging / Error**       | Swallowed errors, missing contextual logging, bare `catch` blocks       |
 
 ## Development
 
