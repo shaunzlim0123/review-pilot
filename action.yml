@@ -1,0 +1,62 @@
+name: "Review Pilot"
+description: "Multi-agent semantic code review that enforces security and architecture conventions"
+author: "shaunlim"
+
+inputs:
+  github-token:
+    description: "GitHub token for API access (defaults to GITHUB_TOKEN)"
+    required: false
+    default: ${{ github.token }}
+  anthropic-api-key:
+    description: "Anthropic API key for convention mining"
+    required: true
+  model:
+    description: "Model used for convention mining"
+    required: false
+    default: "claude-sonnet-4-5-20250929"
+  config-path:
+    description: "Path to .review-pilot.yml config file"
+    required: false
+    default: ".review-pilot.yml"
+  policy-path:
+    description: "Path to policy snapshot JSON file"
+    required: false
+    default: "reviewer_policy.json"
+  mode:
+    description: "Enforcement mode: warn or enforce"
+    required: false
+    default: "warn"
+  max-inline-comments:
+    description: "Maximum number of inline comments to post"
+    required: false
+    default: "3"
+  learned-rules-path:
+    description: "Path to learned rules JSON file"
+    required: false
+    default: ".review-pilot-learned.json"
+  agent-max-turns:
+    description: "Reserved input for agent turn budget compatibility"
+    required: false
+    default: "12"
+
+outputs:
+  findings-count:
+    description: "Total findings from the multi-agent review"
+  critical-count:
+    description: "Critical findings count"
+  warning-count:
+    description: "Warning findings count"
+  review-event:
+    description: "Review action posted to GitHub"
+  policy-version:
+    description: "Policy schema version"
+  tokens-used:
+    description: "Token usage (currently static analyzers return 0)"
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+
+branding:
+  icon: "shield"
+  color: "blue"
