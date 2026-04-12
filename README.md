@@ -34,6 +34,51 @@ PR Opened → Diff Parser → Context Resolver → Diff Router
 
 When a PR is merged, Review Pilot can mine coding conventions from the diff and review comments using Claude, storing them as learned rules for future reviews.
 
+## Example Review Output
+
+When Review Pilot finds issues, it posts a structured review directly on the PR with inline comments:
+
+![Review Pilot inline comments](docs/inline-comments.png)
+
+---
+
+**Review Pilot** — Multi-agent review found 4 issue(s): 2 critical, 2 warning, 0 info.
+
+| Severity | Count |
+|----------|-------|
+| 🔴 Critical | 2 |
+| 🟡 Warning | 2 |
+
+#### 🔴 Possible hardcoded secret in code
+`src/handlers/auth.ts:5` | Rule: `security-hardcoded-secret-assignment` | Category: `security` | Agent: `security-agent`
+
+Sensitive values should be loaded from secure runtime config/secrets management, not committed in code.
+
+> **Suggestion:** Move the secret to configuration or secret manager and reference it at runtime.
+
+#### 🔴 AWS-style access key detected
+`src/handlers/auth.ts:6` | Rule: `security-aws-access-key` | Category: `security` | Agent: `security-agent`
+
+Sensitive values should be loaded from secure runtime config/secrets management, not committed in code.
+
+> **Suggestion:** Move the secret to configuration or secret manager and reference it at runtime.
+
+#### 🟡 Handler appears to depend directly on DAL/DB concerns
+`src/handlers/auth.ts:1` | Rule: `arch-handler-direct-data-access` | Category: `architecture-boundary` | Agent: `architecture-boundary-agent`
+
+Handlers should stay thin and delegate business/data access through service boundaries.
+
+> **Suggestion:** Move DAL/DB operations behind a service layer and call that service from the handler.
+
+#### 🟡 Catch block appears to miss error logging/propagation
+`src/handlers/auth.ts:17` | Rule: `logging-catch-no-log` | Category: `logging-error` | Agent: `logging-error-agent`
+
+New catch blocks should either log with context or rethrow to avoid silent failures.
+
+> **Suggestion:** Add structured error logging and/or rethrow after handling.
+
+---
+
 ## Usage
 
 Add to your workflow:
@@ -132,51 +177,6 @@ file_classification:
 specialist_routing:
   handler: [security, reliability, api-contract]
 ```
-
-## Example Review Output
-
-When Review Pilot finds issues, it posts a structured review directly on the PR with inline comments:
-
-![Review Pilot inline comments](docs/inline-comments.png)
-
----
-
-**Review Pilot** — Multi-agent review found 4 issue(s): 2 critical, 2 warning, 0 info.
-
-| Severity | Count |
-|----------|-------|
-| 🔴 Critical | 2 |
-| 🟡 Warning | 2 |
-
-#### 🔴 Possible hardcoded secret in code
-`src/handlers/auth.ts:5` | Rule: `security-hardcoded-secret-assignment` | Category: `security` | Agent: `security-agent`
-
-Sensitive values should be loaded from secure runtime config/secrets management, not committed in code.
-
-> **Suggestion:** Move the secret to configuration or secret manager and reference it at runtime.
-
-#### 🔴 AWS-style access key detected
-`src/handlers/auth.ts:6` | Rule: `security-aws-access-key` | Category: `security` | Agent: `security-agent`
-
-Sensitive values should be loaded from secure runtime config/secrets management, not committed in code.
-
-> **Suggestion:** Move the secret to configuration or secret manager and reference it at runtime.
-
-#### 🟡 Handler appears to depend directly on DAL/DB concerns
-`src/handlers/auth.ts:1` | Rule: `arch-handler-direct-data-access` | Category: `architecture-boundary` | Agent: `architecture-boundary-agent`
-
-Handlers should stay thin and delegate business/data access through service boundaries.
-
-> **Suggestion:** Move DAL/DB operations behind a service layer and call that service from the handler.
-
-#### 🟡 Catch block appears to miss error logging/propagation
-`src/handlers/auth.ts:17` | Rule: `logging-catch-no-log` | Category: `logging-error` | Agent: `logging-error-agent`
-
-New catch blocks should either log with context or rethrow to avoid silent failures.
-
-> **Suggestion:** Add structured error logging and/or rethrow after handling.
-
----
 
 ## Specialist Agents
 
