@@ -13,7 +13,7 @@ inputs:
   model:
     description: "Model used for convention mining"
     required: false
-    default: "claude-sonnet-4-5-20250929"
+    default: "claude-sonnet-4-6"
   config-path:
     description: "Path to .review-pilot.yml config file"
     required: false
