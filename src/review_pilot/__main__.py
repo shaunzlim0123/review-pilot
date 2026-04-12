@@ -8,6 +8,7 @@ import os
 import sys
 from typing import Any
 
+import github
 from github import Github
 
 from .agents.convention_miner import mine_conventions_from_merged_pr
@@ -65,7 +66,7 @@ def run() -> None:
         event_name = os.environ.get("GITHUB_EVENT_NAME", "")
         action = event_payload.get("action", "")
 
-        gh = Github(token)
+        gh = Github(auth=github.Auth.Token(token))
         repo_full_name = os.environ.get("GITHUB_REPOSITORY", "")
         repo = gh.get_repo(repo_full_name)
 
