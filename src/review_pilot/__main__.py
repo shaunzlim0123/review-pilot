@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 
 def _get_input(name: str, required: bool = False, default: str = "") -> str:
-    env_name = f"INPUT_{name.upper().replace('-', '_')}"
+    env_name = f"INPUT_{name.upper()}"
     value = os.environ.get(env_name, default)
     if required and not value:
         logger.error("Input '%s' is required but was not provided.", name)
