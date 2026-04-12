@@ -11,7 +11,7 @@ jobs:
   review:
     runs-on: ubuntu-latest
     steps:
-      - uses: shaunlim/review-pilot@main
+      - uses: shaunzlim0123/review-pilot@main
         with:
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
           model: claude-sonnet-4-6
