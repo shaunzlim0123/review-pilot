@@ -36,6 +36,8 @@ When a PR is merged, Review Pilot can mine coding conventions from the diff and 
 
 ## Example Review Output
 
+To see Review Pilot in action, open a PR that introduces code it's configured to catch. For example, a file like `src/handlers/auth.ts` that hardcodes a secret, imports a database module directly, and swallows errors in a catch block will trigger findings across multiple specialist agents for security, architecture-boundary, and logging-error.
+
 When Review Pilot finds issues, it posts a structured review directly on the PR with inline comments:
 
 ![Review Pilot inline comments](docs/inline-comments.png)
